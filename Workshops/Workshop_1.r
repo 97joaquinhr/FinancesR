@@ -93,3 +93,10 @@ x$Fail=c(T,F,T)
 
 #rename just one column
 colnames(x)[2]="Grades"
+
+#I can install R packages from users
+#I an install the package quantmod, which is used for data collection
+# and financial analysis:
+install.packages("quantmod")
+#Once the package is installed:
+#library(quantmod)
