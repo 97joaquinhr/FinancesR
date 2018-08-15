@@ -109,3 +109,84 @@ c(1,2) %in% c(6,4,8,3,2,1)
 c(6,4,8,3,2,1) %in% c(1,2)
 
 ## For Loop
+students<-c("Pedro","Laura","Bryan")
+for(name in students){
+  ##Instead of name you can write any variable just change it inside the loop
+  print(paste("Hi, my name is",name))
+}
+
+#nested loops
+numbers <- NULL
+for(i in c(2,1,0)){
+  for(e in seq(9,0)){
+    #The seq is a function that returns a sequence of numbers in a vector.
+    x <- as.numeric(paste(i, e, sep = ""))
+    # We write the next condition because we only want numbers equal or less than 20,
+    # and the loop creates numbers until 29
+    if(x <= 20){
+      numbers<-c(numbers,x)
+    }
+  }
+}
+numbers
+
+install.packages("quantmod")
+library(quantmod)
+tickers=c("AAPL","JPM","GE")
+for(i in tickers){
+  if(i %in% c("AAPL","JPM","GE")){
+    getSymbols(i)
+    print(paste("the prices of the ticker",i,"have been downloaded"))
+  }
+}
+
+tickers <- c("AAPL","GM","INTGSTMXM193N","GE","JPM")
+for(i in tickers){
+  if(i %in% c("AAPL","GE")){
+    getSymbols(i,src = "yahoo")
+    print(paste("the prices of the ticker",i,"have been downloaded from yahoo"))
+  }
+  else if(i=="INTGSTMXM193N"){
+    getSymbols(i,src = "FRED")
+    #Note that the source for the FED is called FRED
+    print(paste("the data of the ticker",i,"have been downloaded from the FED (Federal Reserve Bank of the US) "))
+  }
+}
+
+tickers <- c("AAPL","GM","INTGSTMXM193N","GE","JPM")
+for(i in tickers){
+  if(i %in% c("AAPL","GE")){
+    getSymbols(i,src = "yahoo")
+    print(paste("the prices of the ticker",i,"have been downloaded from yahoo"))
+  }
+  else if(i=="INTGSTMXM193N"){
+    getSymbols(i,src = "FRED")
+    print(paste("the data of the ticker",i,"have been downloaded from the FED (Federal Reserve Bank of the US) "))
+  }
+  else {
+    print(paste("The ticker",i,"has not been downloaded"))
+  }
+}
+
+#while loop
+APR<-0.10
+# I define Annual Percentage Rate to be equal to 10%
+INV<-100
+# Initial investment equal to $100
+MULTIPLE<-2
+# Multiple = 2 to check when the investment double
+BALANCE<-INV
+# I start assigning the balance equal to the initial investment
+year<-0
+# I start with year equal to zero
+while (BALANCE<MULTIPLE*INV) {
+  # the exit condition means that while the balance is less than the initial investment
+  # multiplied by the multiple, then continue with the iterations of the loop
+  year<-year+1
+  # I increase the value of year by 1
+  BALANCE<-BALANCE*(1+APR)
+  # I multiply the current balance times the growth factor (1+APR) using to the
+  # Annual Percentage Rate
+}
+print(paste(
+  "To multiply your investment times ", MULTIPLE, "you need ", year, " years."))
