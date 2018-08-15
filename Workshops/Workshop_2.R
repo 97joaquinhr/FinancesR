@@ -190,3 +190,73 @@ while (BALANCE<MULTIPLE*INV) {
 }
 print(paste(
   "To multiply your investment times ", MULTIPLE, "you need ", year, " years."))
+print(paste(
+  "Your balance after ", year, " years will be $",BALANCE))
+
+#sum with loops
+v1<-1:20
+# v1 is a vector with consecutive numbers from 1 to 20
+v2<-rep(5,20)
+# v2 is a vector of 20 elements, and each element equal to 5
+sumv<-vector(mode = "integer",length = 5)#i don't know why the lenght is 5
+for (i in 1:length(v1)) {
+  sumv[i]<-v1[i] + v2[i]
+  # We sum the element i of both vectors and leave the result
+  # in the position i of the vector sumv
+}
+sumv
+#sum without loop
+v1<-1:20
+# v1 is a vector with consecutive numbers from 1 to 20
+v2<-rep(5,20)
+# v2 is a vector of 20 elements, and each element equal to 5
+sumv<-v1+v2
+# We just sum both vectors as if they were numbers
+sumv
+
+
+Arrests.df <- USArrests
+Arrests.df$Security_Level <- ""
+meanMurder=mean(Arrests.df$Murder)
+meanAssaults=mean(Arrests.df$Assault)
+# I create the column with empty string values
+for (i in 1:nrow(Arrests.df)) {
+  if (Arrests.df$Murder[i]>meanMurder & Arrests.df$Assault[i]>meanAssaults) {
+    Arrests.df$Security_Level[i]<-"Very Bad"
+  }
+  else if (Arrests.df$Murder[i]>meanMurder) {
+    Arrests.df$Security_Level[i]<-"Bad"
+  }
+  else if (Arrests.df$Murder[i]<=meanMurder & Arrests.df$Assault[i]<=meanAssaults) {
+    Arrests.df$Security_Level[i]<-"Very Good"
+  }
+  else if (Arrests.df$Murder[i]<=meanMurder) {
+    Arrests.df$Security_Level[i]<-"Good"
+  }
+}
+head(Arrests.df,10)
+#avoiding loop
+Arrests.df$Security_Level2[Arrests.df$Murder>mean(Arrests.df$Murder)] <-"Bad"
+Arrests.df$Security_Level2[Arrests.df$Murder>mean(Arrests.df$Murder) &
+                             Arrests.df$Assault>mean(Arrests.df$Assault)] <- "Very Bad"
+Arrests.df$Security_Level2[Arrests.df$Murder<=mean(Arrests.df$Murder)]<- "Good"
+Arrests.df$Security_Level2[Arrests.df$Murder<=mean(Arrests.df$Murder) &
+                             Arrests.df$Assault<=mean(Arrests.df$Assault)] <- "Very Good"
+head(Arrests.df,10)
+
+#Excercise 1
+LoanA=1000000
+APR=0.11
+MFP=15000
+m=0
+MPR=APR/12
+while(LoanA>=MFP){
+  LoanA=LoanA*(1+MPR)
+  LoanA=LoanA-MFP
+  m=m+1
+}
+print(paste("Your are going to finish paying after ",m+1," months"))
+if(LoanA!=0){
+  print(paste("The last payment due is ",LoanA))
+}
+
