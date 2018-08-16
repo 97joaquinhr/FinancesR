@@ -249,6 +249,7 @@ LoanA=1000000
 APR=0.11
 MFP=15000
 m=0
+#I applied the rate monthly
 MPR=APR/12
 while(LoanA>=MFP){
   LoanA=LoanA*(1+MPR)
@@ -259,4 +260,19 @@ print(paste("Your are going to finish paying after ",m+1," months"))
 if(LoanA!=0){
   print(paste("The last payment due is ",LoanA))
 }
-
+#the same problem but the interest 
+#is applied annually instead of monthly
+LoanA=1000000
+APR=0.11
+MFP=15000
+m=0
+while(LoanA>=MFP){
+  if(m%%12==0)  
+    LoanA=LoanA*(1+APR)
+  LoanA=LoanA-MFP
+  m=m+1
+}
+print(paste("Your are going to finish paying after ",m+1," months"))
+if(LoanA!=0){
+  print(paste("The last payment due is ",LoanA))
+}
