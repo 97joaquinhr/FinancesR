@@ -80,7 +80,7 @@ attributes(ef)
 plot(ef, plot.assets = TRUE, col = "blue", pch = 16)
 
 #Part V. Exercise
-getSymbols(c("ALFAA","BIMBOA"),
+getSymbols(c("ALFAA.MX","BIMBOA.MX"),
            from = "2015-01-01", to = "2017-12-31",
            periodicity = "monthly",
            src = "yahoo")
