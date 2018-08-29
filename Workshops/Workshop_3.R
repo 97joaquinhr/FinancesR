@@ -90,3 +90,69 @@ getSymbols(c("AAPL","WMT","MSFT","GE","TSLA"),
 
 portfolio.zoo <- merge(AAPL, WMT, MSFT, GE, TSLA)
 rm(AAPL, WMT, MSFT, GE, TSLA)
+
+v1 <- as.Date(as.yearmon(index(portfolio.zoo)))
+portfolio_bymth.zoo <- as.xts(aggregate(portfolio.zoo,
+                                        as.Date(as.yearmon(index(portfolio.zoo))),
+                                        tail,1 ))
+index(portfolio_bymth.zoo) <- as.yearmon(index(portfolio_bymth.zoo))
+returns.zoo <- as.xts(diff(log(portfolio_bymth.zoo)))
+
+returns.df <- as.data.frame(returns.zoo) %>%
+              na.omit() %>%
+              select(contains("Adjusted"))
+
+head(returns.df, 12)
+tail(returns.df, 12)
+summary(returns.df)
+table.Stats(returns.df$AAPL.Adjusted)
+
+getSymbols(c("AAPL","WMT","MSFT","GE","TSLA"),
+           from = "2015-01-01", to = "2017-09-30",
+           periodicity = "monthly",
+           src = "yahoo")
+
+portfolio_bymth.zoo <- merge(AAPL, WMT, MSFT, GE, TSLA)
+# Remove original objects
+rm(AAPL, WMT, MSFT, GE, TSLA)
+index(portfolio_bymth.zoo) <- as.yearmon(index(portfolio_bymth.zoo))
+
+returns.zoo <- as.xts(diff(log(portfolio_bymth.zoo)))
+
+returns.df <- as.data.frame(returns.zoo) %>%
+  na.omit() %>%
+  select(contains("Adjusted"))
+
+tail(returns.df, 12)
+
+summary(returns.df)
+
+
+ret.mat <- coredata(as.matrix(returns.df))
+
+COV <- var(ret.mat)
+COV
+cor(ret.mat)
+ER<- exp(apply(ret.mat, 2, mean)) - 1
+ER
+
+apply(ret.mat, 2, var)
+apply(ret.mat, 2, sd)
+apply(ret.mat, 2, skewness)
+apply(ret.mat, 2, kurtosis)
+
+W <- c(0.30,0.10,0.30,0.10,0.20)
+ERP1 <- t(W)%*%ER
+ERP1
+
+EVARPORT <- t(W)%*%COV%*%W
+ERISK <- sqrt(EVARPORT)
+ERISK
+
+port1 <- getPortfolio(er=ER,cov.mat=COV,weights=W)
+class(port1)
+
+names(port1)
+summary(port1)
+
+plot(port1, col="blue")
