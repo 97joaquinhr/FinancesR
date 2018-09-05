@@ -84,3 +84,40 @@ getSymbols(c("ALFAA.MX","BIMBOA.MX"),
            from = "2015-01-01", to = "2017-12-31",
            periodicity = "monthly",
            src = "yahoo")
+# Merge
+data<- merge(ALFAA.MX,BIMBOA.MX)
+# Remove original objects
+rm(ALFAA.MX,BIMBOA.MX)
+# Compounded returns calculation
+returns1 <- diff(log(data))
+# We can also use the function Return.Calculate from the PerformanceAnalytics to do the same we did:
+# returns.zoo <-Return.Calculate(portfolio_bymth.zoo,method="log")
+
+returns1 <- as.data.frame(returns1) %>% # Copy `returns.zoo` as data frame
+  na.omit() %>% # remove the NAs
+  select(contains("Adjusted")) #
+colnames(returns1)<-c("rAlfa","rBimbo")
+head(returns1)
+
+# Variance-covariance matrix
+#We calculate the var-covar
+covmat <- var(returns1)
+# Vector of expected returns
+er <- exp(apply(returns1, 2, mean)) -1
+er
+wa<-seq(from=0, to=1,by=0.1)
+wb<-1-wa
+w<-rbind(wa,wb)
+ERP<-t(w)%*%er
+ERP
+VARP<-t(w)%*%covmat%*%w
+VARP<-diag(VARP)
+VARP
+RISKP <-sqrt(VARP)
+RISKP
+ERP
+class(ERP)
+class(RISKP)
+plot(RISKP,ERP, main="Portolio Risk vs Return")
+
+
