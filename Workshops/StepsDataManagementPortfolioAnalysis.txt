@@ -1,0 +1,18 @@
+Steps
+- Get symnols of A & B
+- Specifying dates & Freq=Month (2 D.Frames)
+- Merge both D.F. & convert to zoo
+- Create a zoo with the returns using the functions: diff & log
+- Create 2 weight vectors and merge them in a matrix (rbind)
+Work flow(for each level of correlation: (-1,-0.5,0,0.5,1)):
+- Calculate exp. ret. of each asset (er)
+- Calculate exp. ret. of the portfolios:
+	ERP=W'*ER=[ERP1,ERP2,...,ERP19]
+- calculate the var-cov matrix (cov) with the corresponding level of Corr:
+Cov=[var(A), Cov(rA,rB);Cov(rA,rB), var(B)]
+Cov(rA,rB)=Corr(rA,rB)*SD(A)*SD(B)=Corr(rA,rB)*sqrt(cov[1,1])*sqrt(cov[2,2])
+- calculate exp. risk of the portfolios:
+	EVarP=diag(W'*Cov*W)
+	ExpRiskP=sqrt(EVarP)
+-plot
+Repeat 5 times.
