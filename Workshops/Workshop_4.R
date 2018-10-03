@@ -31,7 +31,7 @@ returns.zoo <- diff(log(portfolio_bymth.zoo))
 returns.df <- as.data.frame(returns.zoo) %>% # Copy `returns.zoo` as data frame
   na.omit() %>% # remove the NAs
   select(contains("Adjusted")) # Keep the adjusted close prices only
-
+head(returns.df)
 # To avoid scientific notations for outputs, I define the following:
 options(scipen=100)
 options(digits=2)
