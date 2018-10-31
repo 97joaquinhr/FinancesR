@@ -1,0 +1,22 @@
+October 31st, 2018
+isLessRisky<-function(sr,mr){
+	#run the mkt model
+	m<-lm(sr~mr,na.action=na.omit)
+	#get b1 and its std.error, and calculate its 95% C.I.
+	s<-summary(m)
+	#s$coefficients
+
+	#calculate the Max value of the 95% C.I. for beta1:
+	maxb1<-s$coefficients[2,1]+28s$coefficients[2,2]
+	#Return True if maxb1<1; 0 otherwise
+	return(maxb1<1)
+}
+getHPRPort<-function(er,cov,rf,hpr){
+	#get the tangent portfolio according to the vector of exp. returns and the var-cov matrix
+	optimalPort<-tangency.portfolio(er,cov,rf,shorts=False)
+	#in the attribute weights of the optimalPort object, I will get the optimal weights of the portfolio
+	optimalPort$weights
+	#Calculate the HP of the optimal port using the HPR vector
+	#The HPR vector should be the holding period returns of each stock
+	return(t(optimalPort$weights)%*%t(hpr))
+}
